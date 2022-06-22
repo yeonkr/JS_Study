@@ -55,45 +55,60 @@
 
 const defulatResult = 0;
 let currentResult = defulatResult;
+let logEntries = []; // 전역변수 생성.
 
 function getUserNumberInput() {
     return parent(userInput.value);
 }
-function createAndWriteLog(operator, resultBefolrCalc, calcNumber) {
+function createAndWriteOutput(operator, resultBefolrCalc, calcNumber) {
     const calcDescription = `${resultBefolrCalc} ${operator} ${calcNumber}`; // 출력 텍스트일뿐.
     outputResult(currentResult, calcDescription);
 }
+function writeToLog(
+    operationIdentifier, 
+    prevResult, 
+    operationNumber, 
+    newResult
+    ){
+    const logEntry = {operation: operationIdentifier, prevResult: prevResult, number: enteredNumber, result: newResult}; 
+    logEntries.push(logEntry); // 새로운 요소를 배열로 푸쉬함. 목록에 새로운 요소를 더해줌. 
+    console.log(logEntries); 
+    }
 
 function add() {
     const enteredNumber = getUserNumberInput(); 
     const initialResult = currentResult;
-    currentResult = currentResult + enteredNumber;
+    currentResult += enteredNumber;
+    // currentResult-- // ++도 가능. 이걸 변수 앞에 붙이면 연산이 수정된 값을 반환함.
     createAndWriteOutput('+', initialResult, enteredNumber)
-    
+    const logEntry = {operation: 'ADD', prevResult: initialResult, number: enteredNumber, result: currentResult}; 
+    writeToLog('ADD', initialResult, enteredNumber, currentResult)
     // currentResult = currentResult + parseInt(userInput.value); // 문자열로 변환하고 문자열로 접합. // parseInt : 텍스트, 즉 문자열을 소수점 이하 숫자가 없는 수로 구문분석 하는 함수. pareFloat 소수점 아래자리가 있는 수로 분석 
-
 }
 
 
 function subtract() {
     const enteredNumber = getUserNumberInput();  // 상수나 변수 또는 함수 안에 정의한 상수는 단일 함수에 속하므로 따라서 이 두함수는 서로 분리되어 있다. 이름이 재사용된 상태가 아니고 여러 함수에서 사용할 수 있음. 
     const initialResult = currentResult;
-    currentResult = currentResult - enteredNumber;
+    currentResult -= enteredNumber;
     createAndWriteOutput('-', initialResult, enteredNumber);
+    writeToLog('SUBTRACT', initialResult, enteredNumber, currentResult) 
 }
 
 function multiply() {
     const enteredNumber = getUserNumberInput();
     const initialResult = currentResult;
-    currentResult = currentResult * enteredNumber;
+    currentResult *= enteredNumber;
     createAndWriteOutput('*', initialResult, enteredNumber);
+    writeToLog('MULTIPLY', initialResult, enteredNumber, currentResult)
 }
 
 function divide() {
     const enteredNumber = getUserNumberInput();
     const initialResult = currentResult;
-    currentResult = currentResult / enteredNumber;
+    currentResult /= enteredNumber;
     createAndWriteOutput('/', initialResult, enteredNumber);
+    writeToLog('DIVIDE', initialResult, enteredNumber, currentResult)
 }
 
 addBtn.addEventListener('click', add); 
