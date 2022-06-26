@@ -78,6 +78,7 @@ function writeToLog(
 function add() {
     const enteredNumber = getUserNumberInput(); 
     const initialResult = currentResult;
+    console.log('INPUT' = enteredNumber, currentResult) 
     currentResult += enteredNumber;
     // currentResult-- // ++도 가능. 이걸 변수 앞에 붙이면 연산이 수정된 값을 반환함.
     createAndWriteOutput('+', initialResult, enteredNumber)
