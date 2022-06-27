@@ -1,75 +1,14 @@
-const defaultResult = 0;
-let currentResult = defaultResult;
-let logEntries = [];
+const ATTACK_VALUE = 10; // 전역 값은 대문자로 처리하는 게 일반적. (선택사항)
 
-// Gets input from input field
-function getUserNumberInput() {
-  return parseInt(usrInput.value);
+let chosenMaxLife = 100;
+let currentMonsterHealth = chosenMaxLife;
+let currentPlayerHealth = chosenMaxLife;
+
+adjustHealthBars(chosenMaxLife); // 화면 업데이트 
+
+function attackHandler() { // 이벤트리스너를 가리키는 함수 
+  const damage = dealMonsterDamage(ATTACK_VALUE);
+  currentMonsterHealth -= damage;
 }
 
-// Generates and writes calculation log
-function createAndWriteOutput(operator, resultBeforeCalc, calcNumber) {
-  const calcDescription = `${resultBeforeCalc} ${operator} ${calcNumber}`;
-  outputResult(currentResult, calcDescription); // from vendor file
-}
-
-function writeToLog(
-  operationIdentifier,
-  prevResult,
-  operationNumber,
-  newResult
-) {
-  const logEntry = {
-    operation: operationIdentifier,
-    prevResult: prevResult,
-    number: operationNumber,
-    result: newResult
-  };
-  logEntries.push(logEntry);
-  console.log(logEntries);
-}
-
-function calculateResult(calculationType) {
-  const enteredNumber = getUserNumberInput();
-  const initialResult = currentResult;
-  let mathOperator; 
-  if(calculationType === 'ADD') {
-    currentResult += enteredNumber;
-    mathOperator = '+';
-  } else {
-    currentResult -= enteredNumber;
-    mathOperator = '-';
-  }
-  currentResult += enteredNumber;
-  createAndWriteOutput('+', initialResult, enteredNumber);
-  writeToLog('ADD', initialResult, enteredNumber, currentResult);
-}
-
-function add() {
-  calculateResult('ADD')
-}
-
-function subtract() {
-  calculateResult('SUBTRACT')
-}
-
-function multiply() {
-  const enteredNumber = getUserNumberInput();
-  const initialResult = currentResult;
-  currentResult *= enteredNumber;
-  createAndWriteOutput('*', initialResult, enteredNumber);
-  writeToLog('MULTIPLY', initialResult, enteredNumber, currentResult);
-}
-
-function divide() {
-  const enteredNumber = getUserNumberInput();
-  const initialResult = currentResult;
-  currentResult /= enteredNumber;
-  createAndWriteOutput('/', initialResult, enteredNumber);
-  writeToLog('DIVIDE', initialResult, enteredNumber, currentResult);
-}
-
-addBtn.addEventListener('click', add);
-subtractBtn.addEventListener('click', subtract);
-multiplyBtn.addEventListener('click', multiply);
-divideBtn.addEventListener('click', divide);
+attackBtn.addEventListener('click', attackHandler);
